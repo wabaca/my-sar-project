@@ -1,0 +1,18 @@
+2026-03-05 07:07:57,221 INFO    : gaussian_noise
+2026-03-05 07:07:57,247 INFO    : shot_noise
+2026-03-05 07:07:57,272 INFO    : impulse_noise
+2026-03-05 07:07:57,296 INFO    : defocus_blur
+2026-03-05 07:07:57,321 INFO    : glass_blur
+2026-03-05 07:07:57,345 INFO    : motion_blur
+2026-03-05 07:07:57,370 INFO    : zoom_blur
+2026-03-05 07:07:57,394 INFO    : snow
+2026-03-05 07:07:57,418 INFO    : frost
+2026-03-05 07:07:57,443 INFO    : fog
+2026-03-05 07:07:57,467 INFO    : brightness
+2026-03-05 07:07:57,492 INFO    : contrast
+2026-03-05 07:07:57,517 INFO    : elastic_transform
+2026-03-05 07:07:57,542 INFO    : pixelate
+2026-03-05 07:07:57,567 INFO    : jpeg_compression
+2026-03-05 07:07:57,591 INFO    : length of mixed dataset us 150000
+2026-03-05 07:13:41,291 INFO    : Namespace(corruption='mix_shifts', d_margin=0.05, data='/dockerdata/imagenet', data_corruption='/home/wubucheng/SAR/Tiny-ImageNet-C', debug=False, e_margin=2.763102111592855, exp_type='mix_shifts', fisher_alpha=2000.0, fisher_size=2000, gpu=0, if_shuffle=True, imbalance_ratio=500000, level=5, logger_name='2026-03-05-07-07-57-sar-resnet50_gn_timm-level5-seed2021.txt', lr=0.00025, method='sar', model='resnet50_gn_timm', output='/home/wubucheng/SAR/output', print_freq=39, sar_margin_e0=2.763102111592855, seed=2021, test_batch_size=64, workers=2)
+2026-03-05 07:13:41,293 INFO    : ['bn1.weight', 'bn1.bias', 'layer1.0.bn1.weight', 'layer1.0.bn1.bias', 'layer1.0.bn2.weight', 'layer1.0.bn2.bias', 'layer1.0.bn3.weight', 'layer1.0.bn3.bias', 'layer1.0.downsample.1.weight', 'layer1.0.downsample.1.bias', 'layer1.1.bn1.weight', 'layer1.1.bn1.bias', 'layer1.1.bn2.weight', 'layer1.1.bn2.bias', 'layer1.1.bn3.weight', 'layer1.1.bn3.bias', 'layer1.2.bn1.weight', 'layer1.2.bn1.bias', 'layer1.2.bn2.weight', 'layer1.2.bn2.bias', 'layer1.2.bn3.weight', 'layer1.2.bn3.bias', 'layer2.0.bn1.weight', 'layer2.0.bn1.bias', 'layer2.0.bn2.weight', 'layer2.0.bn2.bias', 'layer2.0.bn3.weight', 'layer2.0.bn3.bias', 'layer2.0.downsample.1.weight', 'layer2.0.downsample.1.bias', 'layer2.1.bn1.weight', 'layer2.1.bn1.bias', 'layer2.1.bn2.weight', 'layer2.1.bn2.bias', 'layer2.1.bn3.weight', 'layer2.1.bn3.bias', 'layer2.2.bn1.weight', 'layer2.2.bn1.bias', 'layer2.2.bn2.weight', 'layer2.2.bn2.bias', 'layer2.2.bn3.weight', 'layer2.2.bn3.bias', 'layer2.3.bn1.weight', 'layer2.3.bn1.bias', 'layer2.3.bn2.weight', 'layer2.3.bn2.bias', 'layer2.3.bn3.weight', 'layer2.3.bn3.bias', 'layer3.0.bn1.weight', 'layer3.0.bn1.bias', 'layer3.0.bn2.weight', 'layer3.0.bn2.bias', 'layer3.0.bn3.weight', 'layer3.0.bn3.bias', 'layer3.0.downsample.1.weight', 'layer3.0.downsample.1.bias', 'layer3.1.bn1.weight', 'layer3.1.bn1.bias', 'layer3.1.bn2.weight', 'layer3.1.bn2.bias', 'layer3.1.bn3.weight', 'layer3.1.bn3.bias', 'layer3.2.bn1.weight', 'layer3.2.bn1.bias', 'layer3.2.bn2.weight', 'layer3.2.bn2.bias', 'layer3.2.bn3.weight', 'layer3.2.bn3.bias', 'layer3.3.bn1.weight', 'layer3.3.bn1.bias', 'layer3.3.bn2.weight', 'layer3.3.bn2.bias', 'layer3.3.bn3.weight', 'layer3.3.bn3.bias', 'layer3.4.bn1.weight', 'layer3.4.bn1.bias', 'layer3.4.bn2.weight', 'layer3.4.bn2.bias', 'layer3.4.bn3.weight', 'layer3.4.bn3.bias', 'layer3.5.bn1.weight', 'layer3.5.bn1.bias', 'layer3.5.bn2.weight', 'layer3.5.bn2.bias', 'layer3.5.bn3.weight', 'layer3.5.bn3.bias']
