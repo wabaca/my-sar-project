@@ -18,8 +18,7 @@ from utils.utils import get_logger
 from dataset.selectedRotateImageFolder import prepare_test_data
 from utils.cli_utils import *
 
-import torch
-import torch.nn as nn
+import torch    
 import torch.nn.functional as F
 
 import tent
@@ -32,7 +31,7 @@ import models.Res as Resnet
 
 
 
-def validate(val_loader, model, criterion, args, device, mode='eval'):
+def validate(val_loader, model, criterion, args, mode='eval'):
     batch_time = AverageMeter('Time', ':6.3f')
     top1 = AverageMeter('Acc@1', ':6.2f')
     top5 = AverageMeter('Acc@5', ':6.2f')
@@ -46,8 +45,10 @@ def validate(val_loader, model, criterion, args, device, mode='eval'):
         end = time.time()
         for i, dl in enumerate(val_loader):
             images, target = dl[0], dl[1]
-            images = images.to(device)
-            target = target.to(device)
+            if args.gpu is not None:
+                images = images.cuda()
+            if torch.cuda.is_available():
+                target = target.cuda()
             # compute output
             output = model(images)
             # _, targets = output.max(1)
@@ -79,9 +80,8 @@ def get_args():
     parser.add_argument('--output', default='./exps', help='the output directory of this experiment')
 
     parser.add_argument('--seed', default=2021, type=int, help='seed for initializing training. ')
-    parser.add_argument('--gpu', default=0, type=int, help='GPU id to use (ignored if GPU not available).')
+    parser.add_argument('--gpu', default=0, type=int, help='GPU id to use.')
     parser.add_argument('--debug', default=False, type=bool, help='debug or not.')
-    parser.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu', type=str, help='device to use (cuda/cpu).')
 
     # dataloader
     parser.add_argument('--workers', default=2, type=int, help='number of data loading workers (default: 4)')
@@ -113,10 +113,6 @@ def get_args():
 if __name__ == '__main__':
 
     args = get_args()
-
-    # set device
-    device = torch.device(args.device)
-    # logger.info(f"Using device: {device}")
 
     # set random seeds
     if args.seed is not None:
@@ -202,7 +198,7 @@ if __name__ == '__main__':
                 args.lr = (0.00025 / 64) * bs * 2 if bs < 32 else 0.00025
             else:
                 assert False, NotImplementedError
-            net = net.to(device)
+            net = net.cuda()
         else:
             assert False, NotImplementedError
 
@@ -219,7 +215,7 @@ if __name__ == '__main__':
             optimizer = torch.optim.SGD(params, args.lr, momentum=0.9) 
             tented_model = tent.Tent(net, optimizer)
 
-            top1, top5 = validate(val_loader, tented_model, None, args, device, mode='eval')
+            top1, top5 = validate(val_loader, tented_model, None, args, mode='eval')
             logger.info(f"Result under {args.corruption}. The adapttion accuracy of Tent is top1 {top1:.5f} and top5: {top5:.5f}")
 
             acc1s.append(top1.item())
@@ -230,7 +226,7 @@ if __name__ == '__main__':
 
         elif args.method == "no_adapt":
             tented_model = net
-            top1, top5 = validate(val_loader, tented_model, None, args, device, mode='eval')
+            top1, top5 = validate(val_loader, tented_model, None, args, mode='eval')
             logger.info(f"Result under {args.corruption}. Original Accuracy (no adapt) is top1: {top1:.5f} and top5: {top5:.5f}")
 
             acc1s.append(top1.item())
@@ -251,10 +247,12 @@ if __name__ == '__main__':
             # fishers = None
             ewc_optimizer = torch.optim.SGD(params, 0.001)
             fishers = {}
-            train_loss_fn = nn.CrossEntropyLoss().to(device)
-            for iter_, (images, targets) in enumerate(fisher_loader, start=1):
-                images = images.to(device, non_blocking=True)
-                targets = targets.to(device, non_blocking=True)
+            train_loss_fn = nn.CrossEntropyLoss().cuda()
+            for iter_, (images, targets) in enumerate(fisher_loader, start=1):      
+                if args.gpu is not None:
+                    images = images.cuda(args.gpu, non_blocking=True)
+                if torch.cuda.is_available():
+                    targets = targets.cuda(args.gpu, non_blocking=True)
                 outputs = net(images)
                 _, targets = outputs.max(1)
                 loss = train_loss_fn(outputs, targets)
@@ -275,7 +273,7 @@ if __name__ == '__main__':
             optimizer = torch.optim.SGD(params, args.lr, momentum=0.9)
             adapt_model = eata.EATA(net, optimizer, fishers, args.fisher_alpha, e_margin=args.e_margin, d_margin=args.d_margin)
 
-            top1, top5 = validate(val_loader, adapt_model, None, args, device, mode='eval')
+            top1, top5 = validate(val_loader, adapt_model, None, args, mode='eval')
             logger.info(f"Result under {args.corruption}. After EATA Adapt: Accuracy: top1: {top1:.5f} and top5: {top5:.5f}")
 
             acc1s.append(top1.item())
@@ -303,8 +301,10 @@ if __name__ == '__main__':
             end = time.time()
             for i, dl in enumerate(val_loader):
                 images, target = dl[0], dl[1]
-                images = images.to(device)
-                target = target.to(device)
+                if args.gpu is not None:
+                    images = images.cuda()
+                if torch.cuda.is_available():
+                    target = target.cuda()
                 output = adapt_model(images)
                 acc1, acc5 = accuracy(output, target, topk=(1, 5))
 
