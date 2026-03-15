@@ -19,3 +19,7 @@ __pycache__/
 
 # Mac system files
 *.DS_Store
+
+Tiny-ImageNet-C/
+
+OpenDataLab___ImageNet-C/
